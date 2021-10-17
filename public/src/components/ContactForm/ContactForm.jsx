@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import PhoneInput from "react-phone-number-input";
-
-import { contactsOperations } from "redux/contacts";
 import { getContacts } from "redux/contacts";
 import styles from "./ContactForm.module.scss";
 import "react-phone-number-input/style.css";
+import { addContact } from "../../redux/contacts/contacts-operations";
 
 const ContactForm = () => {
   const [contactName, setContactName] = useState("");
@@ -16,9 +14,13 @@ const ContactForm = () => {
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
-    const { name, value } = event.currentTarget;
+    const { name, value } = event.target;
     if (name === "name") {
       setContactName(value);
+    } else if (name === "number") {
+      setContactNumber(value);
+    } else {
+      alert(`Enter the contact data!`);
     }
   };
 
@@ -42,7 +44,7 @@ const ContactForm = () => {
       return;
     }
 
-    dispatch(contactsOperations.addContact(contactName, contactNumber));
+    dispatch(addContact(contactName, contactNumber));
     reset();
   };
 
@@ -72,6 +74,7 @@ const ContactForm = () => {
         <span className={styles.formText}>Number</span>
         <PhoneInput
           value={contactNumber}
+          name="number"
           onChange={setContactNumber}
           defaultCountry="UA"
           international
