@@ -15,7 +15,7 @@ const UserMenu = () => {
   return (
     <div className={styles.UserMenu}>
       <div className={styles.userInfo}>
-        <img className={styles.avatar} src={avatar} alt="cat" />
+        <img className={styles.avatar} src={avatar} alt="panda" />
 
         <div className={styles.userText}>
           <span className={styles.text}>{name}!</span>

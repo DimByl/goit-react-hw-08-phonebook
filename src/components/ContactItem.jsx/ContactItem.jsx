@@ -8,8 +8,8 @@ import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 import SaveTwoToneIcon from '@material-ui/icons/SaveTwoTone';
 
 import Checkbox from '@material-ui/core/Checkbox';
-import Favorite from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import Favorite from '@material-ui/icons/Bookmark';
+import FavoriteBorder from '@material-ui/icons/BookmarkBorder';
 import PhoneInput from 'react-phone-number-input';
 import swal from 'sweetalert';
 
@@ -55,7 +55,7 @@ const ContactItem = ({ contact }) => {
         setFavorite(!favorite);
 
         if (!favorite) {
-          swal(`If you like me, call me (◕‿◕)♡! ${value}`);
+          swal(`If you like me, call me! ${value}`);
         }
         break;
 

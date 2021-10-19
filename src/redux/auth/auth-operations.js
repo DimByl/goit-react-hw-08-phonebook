@@ -14,7 +14,7 @@ import {
   getCurrentUserDataError,
 } from "./auth-actions";
 
-axios.defaults.baseURL = "https://goit-phonebook-api.herokuapp.com";
+axios.defaults.baseURL = "https://dimb-phonebook.netlify.app";
 
 const token = {
   set(token) {
@@ -69,7 +69,6 @@ const logOut = () => async (dispatch) => {
 };
 
 const getCurrentUserData = () => async (dispatch, getState) => {
-  // const persistedToken = state.auth.token;
   const {
     auth: { token: persistedToken },
   } = getState();

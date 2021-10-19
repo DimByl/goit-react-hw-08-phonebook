@@ -10,8 +10,8 @@ import { getLoadingUser, getError } from '../../redux/auth/auth-selectors';
 import styles from './LoginPage.module.scss';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('bnm@mail.com'); // очистить
-  const [password, setPassword] = useState('1234567'); // очистить
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const isLoadingUser = useSelector(getLoadingUser);
   const error = useSelector(getError);
