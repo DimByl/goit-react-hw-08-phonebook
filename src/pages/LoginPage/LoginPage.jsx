@@ -1,20 +1,14 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import Container from '../../components/Container';
-import Notification from '../../components/Notification';
-import Loader from '../../components/Loader/Loader';
 
 import authOperations from '../../redux/auth/auth-operations';
-import { getLoadingUser, getError } from '../../redux/auth/auth-selectors';
 
 import styles from './LoginPage.module.scss';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const isLoadingUser = useSelector(getLoadingUser);
-  const error = useSelector(getError);
 
   const dispatch = useDispatch();
 
@@ -35,25 +29,23 @@ const LoginPage = () => {
     }
   };
 
-  const handleFormSubmit = event => {
-    event.preventDefault();
+  const handleFormSubmit = useCallback(
+    event => {
+      event.preventDefault();
+      if (!email || !password) {
+        alert('Fill the Login form');
+        return;
+      }
+      dispatch(authOperations.logIn({ email, password }));
 
-    const user = { email, password };
-    dispatch(authOperations.logIn(user));
-
-    reset();
-  };
-
-  const reset = () => {
-    setEmail('');
-    setPassword('');
-  };
+      setEmail('');
+      setPassword('');
+    },
+  [dispatch, email, password],
+  );
 
   return (
     <Container>
-      {isLoadingUser && <Loader />}
-      {error && <Notification message={error} type="error" />}
-
       <form
         className={styles.SignUpForm}
         onSubmit={handleFormSubmit}

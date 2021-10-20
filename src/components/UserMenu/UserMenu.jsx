@@ -1,16 +1,19 @@
+import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getUserName } from '../../redux/auth/auth-selectors';
-import authOperations from '../../redux/auth/auth-operations';
+import { authSelectors, authOperations } from '../../redux/auth';
 
 import avatar from '../../images/avatar.png';
 import styles from './UserMenu.module.scss';
 
-const UserMenu = () => {
-  const name = useSelector(getUserName);
+export default function UserMenu () {
+  const name = useSelector(authSelectors.getUserName);
   const dispatch = useDispatch();
 
-  const logOutHandler = () => dispatch(authOperations.logOut());
+  const logOutHandler = useCallback(
+    () => dispatch(authOperations.logOut()),
+  [dispatch],
+  );
 
   return (
     <div className={styles.UserMenu}>
@@ -29,5 +32,3 @@ const UserMenu = () => {
     </div>
   );
 };
-
-export default UserMenu;

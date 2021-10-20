@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
 import { createReducer } from "@reduxjs/toolkit";
-
 import {
   fetchContactsRequest,
   fetchContactsSuccess,
@@ -14,14 +13,11 @@ import {
   changeFilter,
 } from "./contacts-actions";
 
-import { logoutSuccess } from "../auth/auth-actions";
-
 const itemsReducer = createReducer([], {
   [fetchContactsSuccess]: (_, { payload }) => payload,
   [addContactSuccess]: (state, { payload }) => [payload, ...state],
   [deleteContactSuccess]: (state, { payload }) =>
     state.filter(({ id }) => id !== payload),
-  [logoutSuccess]: () => [],
 });
 
 const filterReducer = createReducer("", {
@@ -40,18 +36,9 @@ const loading = createReducer(false, {
   [deleteContactError]: () => false,
 });
 
-const error = createReducer(null, {
-  [fetchContactsError]: (_, { payload }) => payload,
-  [fetchContactsRequest]: () => null,
-  [addContactError]: (_, { payload }) => payload,
-  [addContactRequest]: () => null,
-  [deleteContactError]: (_, { payload }) => payload,
-  [deleteContactRequest]: () => null,
-});
-
-export default combineReducers({
+const contactsReducer = combineReducers({
   items: itemsReducer,
   filter: filterReducer,
   loading,
-  error,
 });
+export default contactsReducer;

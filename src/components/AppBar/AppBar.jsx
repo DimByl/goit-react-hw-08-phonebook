@@ -1,22 +1,23 @@
 import { useSelector } from 'react-redux';
-
+import PropTypes from 'prop-types';
 import Navigation from '../Navigation';
 import AuthNav from '../AuthNav';
 import UserMenu from '../UserMenu';
 
-import { getIsAuthorized } from '../../redux/auth/auth-selectors';
+import { authSelectors } from '../../redux/auth';
 
 import styles from './AppBar.module.scss';
 
-const AppBar = () => {
-  const isAuthorized = useSelector(getIsAuthorized);
+export default function AppBar({ isAuthenticated }) {
+  const isLoggedIn = useSelector(authSelectors.getIsAuthorized);
 
   return (
     <div className={styles.AppBar}>
       <Navigation />
-      {isAuthorized ? <UserMenu /> : <AuthNav />}
+      {isLoggedIn ? <UserMenu /> : <AuthNav />}
     </div>
   );
 };
-
-export default AppBar;
+AppBar.propTypes = {
+  isLoggedIn: PropTypes.bool,
+};

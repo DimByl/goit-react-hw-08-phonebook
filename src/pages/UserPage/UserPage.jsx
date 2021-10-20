@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import ContactForm from '../../components/ContactForm';
-import ContactList from '../../components/ContactList';
+import ContactForm from '../../components/ContactForm/ContactForm';
+import ContactList from '../../components/ContactList/ContactList';
 import Filter from '../../components/Filter';
 import Container from '../../components/Container';
 import Loader from '../../components/Loader/Loader';

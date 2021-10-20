@@ -1,18 +1,5 @@
 import axios from "axios";
-import {
-  signupRequest,
-  signupSuccess,
-  signupError,
-  loginRequest,
-  loginSuccess,
-  loginError,
-  logoutRequest,
-  logoutSuccess,
-  logoutError,
-  getCurrentUserDataRequest,
-  getCurrentUserDataSuccess,
-  getCurrentUserDataError,
-} from "./auth-actions";
+import authActions from "./auth-actions";
 
 axios.defaults.baseURL = "https://connections-api.herokuapp.com";
 
@@ -26,45 +13,45 @@ const token = {
 };
 
 const signUp = (payload) => async (dispatch) => {
-  dispatch(signupRequest());
+  dispatch(authActions.signupRequest());
 
   try {
-    const { data } = await axios.post("/users/signup", payload);
+    const response = await axios.post("/users/signup", payload);
 
-    dispatch(signupSuccess(data));
-    token.set(data.token);
-
-    return data;
+    dispatch(authActions.signupSuccess(response.data));
+    token.set(response.data.token);
   } catch (error) {
-    dispatch(signupError(error.message));
+    alert(
+      "Check you entered incorrect data. Check your name, login and password"
+    );
+    dispatch(authActions.signupError(error.message));
   }
 };
 
 const logIn = (payload) => async (dispatch) => {
-  dispatch(loginRequest());
+  dispatch(authActions.loginRequest());
 
   try {
-    const { data } = await axios.post("/users/login", payload);
+    const response = await axios.post("/users/login", payload);
 
-    dispatch(loginSuccess(data));
-    token.set(data.token);
-
-    return data;
+    dispatch(authActions.loginSuccess(response.data));
+    token.set(response.data.token);
   } catch (error) {
-    dispatch(loginError(error.message));
+    alert("Check you entered incorrect data, check your login and password");
+    dispatch(authActions.loginError(error.message));
   }
 };
 
 const logOut = () => async (dispatch) => {
-  dispatch(logoutRequest());
+  dispatch(authActions.logoutRequest());
 
   try {
     await axios.post(`/users/logout`);
 
-    dispatch(logoutSuccess());
+    dispatch(authActions.logoutSuccess());
     token.unset();
   } catch (error) {
-    dispatch(logoutError(error.message));
+    dispatch(authActions.logoutError(error.message));
   }
 };
 
@@ -76,15 +63,13 @@ const getCurrentUserData = () => async (dispatch, getState) => {
   if (!persistedToken) return;
 
   token.set(persistedToken);
-  dispatch(getCurrentUserDataRequest());
+  dispatch(authActions.getCurrentUserDataRequest());
 
   try {
-    const { data } = await axios.get("/users/current");
-    dispatch(getCurrentUserDataSuccess(data));
-
-    return data;
+    const response = await axios.get("/users/current");
+    dispatch(authActions.getCurrentUserDataSuccess(response.data));
   } catch (error) {
-    dispatch(getCurrentUserDataError(error.message));
+    dispatch(authActions.getCurrentUserDataError(error.message));
   }
 };
 
