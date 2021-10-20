@@ -9,70 +9,42 @@ import {
   deleteContactRequest,
   deleteContactSuccess,
   deleteContactError,
-  updateContactRequest,
-  updateContactSuccess,
-  updateContactError,
 } from "./contacts-actions";
 
-const fetchContacts = () => async (dispatch) => {
+export const fetchContacts = () => (dispatch) => {
   dispatch(fetchContactsRequest());
 
-  try {
-    const { data } = await axios.get("/contacts");
-    dispatch(fetchContactsSuccess(data));
-
-    return data;
-  } catch (error) {
-    dispatch(fetchContactsError(error.message));
-  }
+  axios
+    .get("/contacts")
+    .then(({ data }) => dispatch(fetchContactsSuccess(data)))
+    .catch((error) => dispatch(fetchContactsError(error.massage)));
 };
 
-const addContact = (name, number) => async (dispatch) => {
-  const contact = { name, number };
-  dispatch(addContactRequest());
+export const addContact =
+  ({ name, number }) =>
+  (dispatch) => {
+    if (!name || !number) return;
+    const contact = { name, number };
+    dispatch(addContactRequest());
 
-  try {
-    const { data } = await axios.post("/contacts", contact);
-    dispatch(addContactSuccess(data));
+    axios
+      .post("/contacts", contact)
+      .then(({ data }) => dispatch(addContactSuccess(data)))
+      .catch((error) => dispatch(addContactError(error.massage)));
+  };
 
-    return data;
-  } catch (error) {
-    dispatch(addContactError(error.message));
-  }
-};
-
-const deleteContact = (contactId) => async (dispatch) => {
+export const deleteContact = (contactId) => (dispatch) => {
   dispatch(deleteContactRequest());
 
-  try {
-    const { data } = await axios.delete(`/contacts/${contactId}`);
-    dispatch(deleteContactSuccess(contactId));
-
-    return data;
-  } catch (error) {
-    dispatch(deleteContactError(error.message));
-  }
+  axios
+    .delete(`/contacts/${contactId}`)
+    .then(() => dispatch(deleteContactSuccess(contactId)))
+    .catch((error) => dispatch(deleteContactError(error.massage)));
 };
-
-const updateContact =
-  ({ id, updatedContact }) =>
-  async (dispatch) => {
-    dispatch(updateContactRequest());
-
-    try {
-      const { data } = await axios.patch(`/contacts/${id}`, updatedContact);
-      dispatch(updateContactSuccess(data));
-
-      return data;
-    } catch (error) {
-      dispatch(updateContactError(error.message));
-    }
-  };
 
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   fetchContacts,
   addContact,
   deleteContact,
-  updateContact,
 };

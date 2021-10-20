@@ -6,7 +6,7 @@ import {
 } from '../../redux/contacts/contacts-selectors';
 
 import Notification from '../Notification';
-import ContactItem from '../ContactItem.jsx';
+import ContactItem from '../ContactItem';
 import styles from './ContactList.module.scss';
 
 const ContactList = () => {

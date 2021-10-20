@@ -14,14 +14,14 @@ import {
   getCurrentUserDataError,
 } from "./auth-actions";
 
-axios.defaults.baseURL = "https://dimb-phonebook.netlify.app";
+axios.defaults.baseURL = "https://connections-api.herokuapp.com";
 
 const token = {
   set(token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   },
   unset() {
-    axios.defaults.headers.common["Authorization"] = "";
+    axios.defaults.headers.common.Authorization = "";
   },
 };
 

@@ -5,20 +5,17 @@ import ContactForm from '../../components/ContactForm';
 import ContactList from '../../components/ContactList';
 import Filter from '../../components/Filter';
 import Container from '../../components/Container';
-import Notification from '../../components/Notification';
 import Loader from '../../components/Loader/Loader';
 
 import contactsOperations from '../../redux/contacts/contacts-operations';
 import {
   getLoadingContacts,
-  getError,
 } from '../../redux/contacts/contacts-selectors';
 
 import styles from './UserPage.module.scss';
 
 const UserPage = () => {
   const isLoadingContacts = useSelector(getLoadingContacts);
-  const error = useSelector(getError);
 
   const dispatch = useDispatch();
   useEffect(() => dispatch(contactsOperations.fetchContacts()), [dispatch]);
@@ -33,7 +30,6 @@ const UserPage = () => {
         <Filter />
 
         {isLoadingContacts && <Loader />}
-        {error && <Notification message={error} type="error" />}
 
         <ContactList />
       </Container>
