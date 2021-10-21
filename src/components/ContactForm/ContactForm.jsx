@@ -1,56 +1,71 @@
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import PhoneInput from "react-phone-number-input";
-import { getContacts } from "../../redux/contacts";
-import styles from "./ContactForm.module.scss";
-import "react-phone-number-input/style.css";
-import { addContact } from "../../redux/contacts/contacts-operations";
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import PhoneInput from 'react-phone-number-input';
+import PersonAddTwoToneIcon from '@material-ui/icons/PersonAddTwoTone';
+import swal from 'sweetalert';
+
+import contactsOperations from '../../redux/contacts/contacts-operations';
+import { getContacts } from '../../redux/contacts/contacts-selectors';
+
+import styles from './ContactForm.module.scss';
+import 'react-phone-number-input/style.css';
 
 const ContactForm = () => {
-  const [contactName, setContactName] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
+  const [contactName, setContactName] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
 
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    if (name === "name") {
-      setContactName(value);
-    } else if (name === "number") {
-      setContactNumber(value);
-    } else {
-      alert(`Enter the contact data!`);
+  const handleChange = event => {
+    const { name, value } = event.currentTarget;
+
+    switch (name) {
+      case 'name':
+        setContactName(value);
+        break;
+
+      default:
+        return;
     }
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = event => {
     event.preventDefault();
 
     const checkSameName = contacts.find(({ name }) => name === contactName);
 
     const checkSameNumber = contacts.find(
-      ({ number }) => number === contactNumber
+      ({ number }) => number === contactNumber,
     );
 
     if (checkSameNumber) {
       const { name, number } = checkSameNumber;
-      alert(`This number already exists: ${name}: ${number}`);
+      swal({
+        title: 'This number already exists!',
+        text: `${name}: ${number}`,
+        icon: 'info',
+      });
       return;
     }
 
     if (checkSameName) {
-      alert(`${contactName} is already in contacts`);
+      swal({
+        title: `${contactName}`,
+        text: 'is already in contacts!',
+        icon: 'info',
+      });
       return;
     }
 
-    dispatch(addContact(contactName, contactNumber));
+    dispatch(contactsOperations.addContact(contactName, contactNumber));
     reset();
   };
 
   const reset = () => {
-    setContactName("");
-    setContactNumber("");
+    setContactName('');
+    setContactNumber('');
   };
 
   return (
@@ -66,7 +81,7 @@ const ContactForm = () => {
           onChange={handleChange}
           autoComplete="off"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+          title="The name can only consist of letters, apostrophes, dashes and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan, etc."
           required
         />
       </label>
@@ -74,19 +89,19 @@ const ContactForm = () => {
         <span className={styles.formText}>Number</span>
         <PhoneInput
           value={contactNumber}
-          name="number"
           onChange={setContactNumber}
           defaultCountry="UA"
           international
           autoComplete="off"
           pattern="((\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?)"
-          title="Номер телефона должен состоять из 10-14 цифр, может содержать цифры и может начинаться с +"
+          title="Phone number must be 10-14 digits long, can contain digits and can start with +"
           required
         />
       </label>
 
       <button className={styles.formBtn} type="submit">
-        Add contact
+        <span className={styles.btnText}>Add contact</span>
+        <PersonAddTwoToneIcon />
       </button>
     </form>
   );

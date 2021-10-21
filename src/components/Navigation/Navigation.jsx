@@ -1,29 +1,29 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { authSelectors } from '../../redux/auth';
+import { getIsAuthorized } from '../../redux/auth/auth-selectors';
 
+import routes from '../../routes';
 import logo from '../../images/logo.png';
 import styles from './Navigation.module.scss';
 
-export default function Navigation () {
-  const isLoggedIn = useSelector(authSelectors.getIsAuthorized);
+const Navigation = () => {
+  const isAuthorized = useSelector(getIsAuthorized);
 
   return (
     <nav className={styles.Navigation}>
       <NavLink
         exact
-        to="/"
+        to={routes.home}
         className={styles.LogoLink}
         activeClassName={styles.LogoLinkActive}
       >
         <img src={logo} alt="logo" />
       </NavLink>
 
-      {isLoggedIn && (
+      {isAuthorized && (
         <NavLink
-          exact
-          to="/contacts"
+          to={routes.contacts}
           className={styles.NavLink}
           activeClassName={styles.NavLinkActive}
         >
@@ -33,3 +33,5 @@ export default function Navigation () {
     </nav>
   );
 };
+
+export default Navigation;

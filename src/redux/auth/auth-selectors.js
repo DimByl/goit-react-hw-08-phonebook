@@ -1,8 +1,5 @@
-const getIsAuthorized = (state) => state.auth.isAuthorized;
-const getUserName = (state) => state.auth.user.name;
+export const getIsAuthorized = (state) => state.auth.isAuthorized;
+export const getUserName = (state) => state.auth.user.name;
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
-  getIsAuthorized,
-  getUserName,
-};
+export const getLoadingUser = (state) => state.auth.loading;
+export const getError = (state) => state.auth.error;

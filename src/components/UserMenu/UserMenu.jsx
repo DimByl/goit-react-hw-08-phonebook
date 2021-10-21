@@ -1,24 +1,21 @@
-import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { authSelectors, authOperations } from '../../redux/auth';
+import { getUserName } from '../../redux/auth/auth-selectors';
+import authOperations from '../../redux/auth/auth-operations';
 
 import avatar from '../../images/avatar.png';
 import styles from './UserMenu.module.scss';
 
-export default function UserMenu () {
-  const name = useSelector(authSelectors.getUserName);
+const UserMenu = () => {
+  const name = useSelector(getUserName);
   const dispatch = useDispatch();
 
-  const logOutHandler = useCallback(
-    () => dispatch(authOperations.logOut()),
-  [dispatch],
-  );
+  const logOutHandler = () => dispatch(authOperations.logOut());
 
   return (
     <div className={styles.UserMenu}>
       <div className={styles.userInfo}>
-        <img className={styles.avatar} src={avatar} alt="panda" />
+        <img className={styles.avatar} src={avatar} alt="avatar" />
 
         <div className={styles.userText}>
           <span className={styles.text}>{name}!</span>
@@ -32,3 +29,5 @@ export default function UserMenu () {
     </div>
   );
 };
+
+export default UserMenu;

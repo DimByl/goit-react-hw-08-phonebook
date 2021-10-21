@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom';
 
+import routes from '../../routes';
 import styles from './AuthNav.module.scss';
 
 const AuthNav = () => (
   <div className={styles.AuthNav}>
     <NavLink
-      exact
-      to="/signup"
+      to={routes.signup}
       className={styles.NavLink}
       activeClassName={styles.NavLinkActive}
     >
@@ -14,8 +14,7 @@ const AuthNav = () => (
     </NavLink>
 
     <NavLink
-      exact
-     to="/login"
+      to={routes.login}
       className={styles.NavLink}
       activeClassName={styles.NavLinkActive}
     >
